@@ -1,4 +1,4 @@
-package pl.sayen.xmlanalysisapi;
+package pl.sayen.xmlAnalysisApi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

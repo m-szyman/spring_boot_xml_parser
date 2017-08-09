@@ -1,4 +1,4 @@
-package pl.sayen.xmlanalysisapi.model;
+package pl.sayen.xmlAnalysisApi.model;
 
 import java.time.LocalDateTime;
 
