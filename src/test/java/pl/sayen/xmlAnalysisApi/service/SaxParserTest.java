@@ -31,7 +31,7 @@ public class SaxParserTest {
 
 //        When
         xmlParser.run(service);
-        AnalysisResult result = service.generateAnalysisResult();
+        AnalysisResult result = service.getAnalysisResult();
 
 //        Then
         LocalDateTime expectedFirstPost = LocalDateTime.parse("2016-01-12T18:45:19.963");
@@ -49,6 +49,10 @@ public class SaxParserTest {
         int expectedAnswers = 1;
         int actualAnswers = result.getDetails().getAnswers();
         assertEquals(expectedAnswers, actualAnswers);
+
+        int expectedTotalPosts = 8;
+        int actualTotalPosts = result.getDetails().getTotalPosts();
+        assertEquals(expectedTotalPosts, actualTotalPosts);
 
         int expectedTotalAcceptedPosts = 5;
         int actualTotalAcceptedPosts = result.getDetails().getTotalAcceptedPosts();

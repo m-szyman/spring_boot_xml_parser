@@ -10,6 +10,10 @@ public class AnalysisResult {
     private LocalDateTime analyseDate;
     private AnalysisDetails details;
 
+    public AnalysisResult() {
+        this.details = new AnalysisDetails();
+    }
+
     public LocalDateTime getAnalyseDate() {
         return analyseDate;
     }
@@ -20,9 +24,5 @@ public class AnalysisResult {
 
     public AnalysisDetails getDetails() {
         return details;
-    }
-
-    public void setDetails(AnalysisDetails details) {
-        this.details = details;
     }
 }

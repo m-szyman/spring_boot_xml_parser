@@ -12,7 +12,7 @@ public class ElementAnalyzer {
     public static boolean alreadyExecuted = false;
 
     /**
-     * This method checks every attribute of xml element and updates necessary data in analysisService
+     * This method checks every attribute of xml element and use analysisService to update necessary data
      *
      * @param service    service for xml parser to temporary store and process results in memory
      * @param attributes list of xml element attributes to analyse
@@ -31,28 +31,33 @@ public class ElementAnalyzer {
             String attributeValue = attributes.getValue(i);
 
             switch (attributeName) {
+
                 case "PostTypeId": {
                     postTypeId = Integer.parseInt(attributeValue);
                     incrementPostsNumber(service, postTypeId);
                     break;
                 }
+
                 case "AcceptedAnswerId":
-                    service.incrementAcceptedAnswersCounter();
+                    service.incrementAcceptedAnswers();
                     break;
+
                 case "CreationDate": {
                     if (!alreadyExecuted) {
-                        service.setFirstPostCreationTime(attributeValue);
+                        service.setFirstPostCreationTime(LocalDateTime.parse(attributeValue));
                         alreadyExecuted = true;
                     }
                     service.setLastPostCreationTime(LocalDateTime.parse(attributeValue));
                     break;
                 }
+
                 case "Score": {
                     if (postTypeId == 1 || postTypeId == 2) {
-                        service.addScore(attributeValue);
+                        service.addScore(Integer.valueOf(attributeValue));
                     }
                     break;
                 }
+
                 default: {
                     break;
                 }
@@ -61,8 +66,8 @@ public class ElementAnalyzer {
     }
 
     private static void incrementPostsNumber(AnalysisService service, int postTypeId) {
-        if (postTypeId == 1) service.incrementQuestionCounter();
-        if (postTypeId == 2) service.incrementAnswerCounter();
+        if (postTypeId == 1) service.incrementQuestions();
+        if (postTypeId == 2) service.incrementAnswers();
     }
 }
 

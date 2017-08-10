@@ -34,7 +34,7 @@ public class AnalysisDetails {
     }
 
     public int getTotalPosts() {
-        return totalPosts;
+        return questions + answers;
     }
 
     public void setTotalPosts(int totalPosts) {
@@ -72,6 +72,7 @@ public class AnalysisDetails {
     public void setAvgScore(int avgScore) {
         this.avgScore = avgScore;
     }
+
     public int getMinScore() {
         return minScore;
     }

@@ -28,6 +28,6 @@ public class AnalysisController {
 
         xmlParser.run(service);
 
-        return service.generateAnalysisResult();
+        return service.getAnalysisResult();
     }
 }
