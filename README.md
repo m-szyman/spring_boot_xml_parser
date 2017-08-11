@@ -1,7 +1,12 @@
-#XML analysis API
-#####API server which can analyse the content of xml files_
+# XML analysis API
+
+
+###### API server that analyses the content of xml files
+
 
 _Example of using SAX API to parse XML content_
+
+<br>
 
 **Dockerfile**
 
@@ -9,13 +14,24 @@ To build the Docker image use the command line like this:
 
 `$ ./mvnw install dockerfile:build`
 
-To run a docker image use the command line like this:
+<br>
+
+**Docker Hub Repo**
+
+https://hub.docker.com/r/sayenpl/xml-analysis-api/
+
+To pull the docker image:
+
+`$ docker pull sayenpl/xml-analysis-api`
+
+
+To run a new docker container use the command line like this:
 
 `$ docker run -p 8080:8080 -t sayenpl/xml-analysis-api`
 
 The application is then available on `http://localhost:8080/analyze`
 
-
+<br>
 
 **HTTP request example**
 ~~~~
@@ -29,6 +45,8 @@ curl -i -X POST \
  ~~~~
  
  Find other files on archive site https://archive.org/details/stackexchange
+ 
+ <br>
  
  **Response example**
 ~~~~
