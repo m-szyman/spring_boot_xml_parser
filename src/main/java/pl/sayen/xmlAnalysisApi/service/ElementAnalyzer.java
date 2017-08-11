@@ -1,68 +1,53 @@
 package pl.sayen.xmlAnalysisApi.service;
 
-import org.xml.sax.Attributes;
-
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * @author Mariusz Szymanski
  */
 public class ElementAnalyzer {
 
-    public static boolean alreadyExecuted = false;
+    public boolean alreadyExecuted = false;
+    private int postTypeId;
 
     /**
      * This method checks every attribute of xml element and use analysisService to update necessary data
      *
-     * @param service    service for xml parser to temporary store and process results in memory
-     * @param attributes list of xml element attributes to analyse
+     * @param service    service for xml parser to store and process the analyses results
+     * @param attributes map of xml element attributes to analyse
      */
-    public static void analyzeElement(AnalysisService service, Attributes attributes) {
+    public void analyzeElement(AnalysisService service, Map<String, String> attributes) {
 
-        // get the number of attributes in the element
-        int length = attributes.getLength();
-
-        // initialize postTypeId; postTypeId = 1 for Question, postTypeId = 2 for Answer
-        int postTypeId = 0;
-
-        // process each attribute
-        for (int i = 0; i < length; i++) {
-            String attributeName = attributes.getQName(i);
-            String attributeValue = attributes.getValue(i);
-
-            switch (attributeName) {
-
+        attributes.forEach((key, value) -> {
+            switch (key) {
                 case "PostTypeId": {
-                    postTypeId = Integer.parseInt(attributeValue);
-                    incrementPostsNumber(service, postTypeId);
+                    postTypeId = Integer.parseInt(value);
+                    incrementPostsNumber(service, Integer.parseInt(value));
                     break;
                 }
-
                 case "AcceptedAnswerId":
-                    service.incrementAcceptedAnswers();
+                    if (!(value == null))service.incrementAcceptedAnswers();
                     break;
-
                 case "CreationDate": {
                     if (!alreadyExecuted) {
-                        service.setFirstPostCreationTime(LocalDateTime.parse(attributeValue));
+                        service.setFirstPostCreationTime(LocalDateTime.parse(value));
                         alreadyExecuted = true;
                     }
-                    service.setLastPostCreationTime(LocalDateTime.parse(attributeValue));
+                    service.setLastPostCreationTime(LocalDateTime.parse(value));
                     break;
                 }
-
                 case "Score": {
                     if (postTypeId == 1 || postTypeId == 2) {
-                        service.addScore(Integer.valueOf(attributeValue));
+                        service.addScore(Integer.valueOf(value));
                     }
                     break;
                 }
-
                 default: {
                     break;
                 }
             }
-        }
+        });
     }
 
     private static void incrementPostsNumber(AnalysisService service, int postTypeId) {
@@ -70,4 +55,3 @@ public class ElementAnalyzer {
         if (postTypeId == 2) service.incrementAnswers();
     }
 }
-

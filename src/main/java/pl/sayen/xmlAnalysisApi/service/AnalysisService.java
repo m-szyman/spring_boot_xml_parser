@@ -2,6 +2,7 @@ package pl.sayen.xmlAnalysisApi.service;
 
 import pl.sayen.xmlAnalysisApi.model.AnalysisResult;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class AnalysisService {
 
-    private String url;
+    private URL url;
     private List<Integer> scores = new ArrayList<>();
     private AnalysisResult result;
 
@@ -25,11 +26,11 @@ public class AnalysisService {
         return result;
     }
 
-    public String getUrl() {
+    public URL getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(URL url) {
         this.url = url;
     }
 
