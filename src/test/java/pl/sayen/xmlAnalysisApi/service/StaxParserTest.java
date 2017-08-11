@@ -2,9 +2,9 @@ package pl.sayen.xmlAnalysisApi.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXParseException;
 import pl.sayen.xmlAnalysisApi.model.AnalysisResult;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -15,13 +15,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Mariusz Szymanski
  */
-public class SaxParserTest {
+public class StaxParserTest {
 
-    private XmlParser saxParser;
+    private XmlParser staxParser;
+    private AnalysisResult analysisResult;
 
     @Before
     public void setUp() throws Exception {
-        saxParser = new SaxParser();
+        staxParser = new StaxParser();
     }
 
     @Test
@@ -34,7 +35,7 @@ public class SaxParserTest {
         service.setUrl(testFileUrl);
 
 //        When
-        saxParser.run(service);
+        staxParser.run(service);
         AnalysisResult result = service.getAnalysisResult();
 
 //        Then
@@ -53,10 +54,6 @@ public class SaxParserTest {
         int expectedAnswers = 1;
         int actualAnswers = result.getDetails().getAnswers();
         assertEquals(expectedAnswers, actualAnswers);
-
-        int expectedTotalPosts = 8;
-        int actualTotalPosts = result.getDetails().getTotalPosts();
-        assertEquals(expectedTotalPosts, actualTotalPosts);
 
         int expectedTotalAcceptedPosts = 5;
         int actualTotalAcceptedPosts = result.getDetails().getTotalAcceptedPosts();
@@ -81,7 +78,7 @@ public class SaxParserTest {
         AnalysisService service = new AnalysisService();
         service.setUrl(null);
 //        When & Then
-        saxParser.run(service);
+        staxParser.run(service);
     }
 
     @Test(expected = FileNotFoundException.class)
@@ -93,10 +90,10 @@ public class SaxParserTest {
         URL testFileUrl = new File(absolutePathToTestFile).toURI().toURL();
         service.setUrl(testFileUrl);
 //        When & Then
-        saxParser.run(service);
+        staxParser.run(service);
     }
 
-    @Test(expected = SAXParseException.class)
+    @Test(expected = XMLStreamException.class)
     public void shouldThrowExceptionWhenXmlFileBroken() throws Exception {
 //        Given
         AnalysisService service = new AnalysisService();
@@ -105,6 +102,6 @@ public class SaxParserTest {
         URL testFileUrl = new File(absolutePathToTestFile).toURI().toURL();
         service.setUrl(testFileUrl);
 //        When & Then
-        saxParser.run(service);
+        staxParser.run(service);
     }
 }
