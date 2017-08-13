@@ -22,25 +22,18 @@ public class ElementAnalyzer {
         attributes.forEach((key, value) -> {
             switch (key) {
                 case "PostTypeId": {
-                    postTypeId = Integer.parseInt(value);
-                    incrementPostsNumber(service, Integer.parseInt(value));
+                    handlePostTypeId(service, value);
                     break;
                 }
                 case "AcceptedAnswerId":
-                    if (!(value == null))service.incrementAcceptedAnswers();
+                    handleAcceptedAnswerId(service, value);
                     break;
                 case "CreationDate": {
-                    if (!alreadyExecuted) {
-                        service.setFirstPostCreationTime(LocalDateTime.parse(value));
-                        alreadyExecuted = true;
-                    }
-                    service.setLastPostCreationTime(LocalDateTime.parse(value));
+                    handleCreationDate(service, value);
                     break;
                 }
                 case "Score": {
-                    if (postTypeId == 1 || postTypeId == 2) {
-                        service.addScore(Integer.valueOf(value));
-                    }
+                    handleScore(service, value);
                     break;
                 }
                 default: {
@@ -50,8 +43,28 @@ public class ElementAnalyzer {
         });
     }
 
-    private static void incrementPostsNumber(AnalysisService service, int postTypeId) {
+    private void handlePostTypeId(AnalysisService service, String value) {
+        postTypeId = Integer.parseInt(value);
         if (postTypeId == 1) service.incrementQuestions();
         if (postTypeId == 2) service.incrementAnswers();
+    }
+
+    private void handleAcceptedAnswerId(AnalysisService service, String value) {
+        if (!(value == null)) service.incrementAcceptedAnswers();
+    }
+
+    private void handleCreationDate(AnalysisService service, String value) {
+        LocalDateTime creationDateTime = LocalDateTime.parse(value);
+        if (!alreadyExecuted) {
+            service.setFirstPostCreationTime(creationDateTime);
+            alreadyExecuted = true;
+        }
+        service.setLastPostCreationTime(LocalDateTime.parse(value));
+    }
+
+    private void handleScore(AnalysisService service, String value) {
+        if (postTypeId == 1 || postTypeId == 2) {
+            service.addScore(Integer.valueOf(value));
+        }
     }
 }
