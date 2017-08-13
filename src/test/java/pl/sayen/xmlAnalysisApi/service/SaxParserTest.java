@@ -25,54 +25,35 @@ public class SaxParserTest {
     }
 
     @Test
-    public void shouldReturnProperResultValuesForGivenXmlTestUrl() throws Exception {
+    public void shouldReturnCorrectResultValuesForGivenXmlTestUrl() throws Exception {
 //        Given
         AnalysisService service = new AnalysisService();
         String relativePathToTestFile = "src/test/resources/test-posts.xml";
         String absolutePathToTestFile = new File(relativePathToTestFile).getAbsolutePath();
         URL testFileUrl = new File(absolutePathToTestFile).toURI().toURL();
         service.setUrl(testFileUrl);
-
+        LocalDateTime expectedFirstPost = LocalDateTime.parse("2016-01-12T18:45:19.963");
+        LocalDateTime expectedLastPost = LocalDateTime.parse("2016-01-12T18:59:34.417");
+        int expectedQuestions = 7;
+        int expectedAnswers = 1;
+        int expectedTotalPosts = 8;
+        int expectedTotalAcceptedPosts = 5;
 //        When
         saxParser.run(service);
         AnalysisResult result = service.getAnalysisResult();
-
-//        Then
-        LocalDateTime expectedFirstPost = LocalDateTime.parse("2016-01-12T18:45:19.963");
         LocalDateTime actualFirstPost = result.getDetails().getFirstPost();
-        assertEquals(expectedFirstPost, actualFirstPost);
-
-        LocalDateTime expectedLastPost = LocalDateTime.parse("2016-01-12T18:59:34.417");
         LocalDateTime actualLastPost = result.getDetails().getLastPost();
-        assertEquals(expectedLastPost, actualLastPost);
-
-        int expectedQuestions = 7;
         int actualQuestions = result.getDetails().getQuestions();
-        assertEquals(expectedQuestions, actualQuestions);
-
-        int expectedAnswers = 1;
         int actualAnswers = result.getDetails().getAnswers();
-        assertEquals(expectedAnswers, actualAnswers);
-
-        int expectedTotalPosts = 8;
         int actualTotalPosts = result.getDetails().getTotalPosts();
-        assertEquals(expectedTotalPosts, actualTotalPosts);
-
-        int expectedTotalAcceptedPosts = 5;
         int actualTotalAcceptedPosts = result.getDetails().getTotalAcceptedPosts();
+//        Then
+        assertEquals(expectedFirstPost, actualFirstPost);
+        assertEquals(expectedLastPost, actualLastPost);
+        assertEquals(expectedQuestions, actualQuestions);
+        assertEquals(expectedAnswers, actualAnswers);
+        assertEquals(expectedTotalPosts, actualTotalPosts);
         assertEquals(expectedTotalAcceptedPosts, actualTotalAcceptedPosts);
-
-        int expectedAvgScore = 9;
-        int actualAvgScore = result.getDetails().getAvgScore();
-        assertEquals(expectedAvgScore, actualAvgScore);
-
-        int expectedMinScore = 4;
-        int actualMinScore = result.getDetails().getMinScore();
-        assertEquals(expectedMinScore, actualMinScore);
-
-        int expectedMaxScore = 18;
-        int actualMaxScore = result.getDetails().getMaxScore();
-        assertEquals(expectedMaxScore, actualMaxScore);
     }
 
     @Test(expected = NullPointerException.class)
