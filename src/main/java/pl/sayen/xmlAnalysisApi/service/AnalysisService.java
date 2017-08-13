@@ -62,32 +62,8 @@ public class AnalysisService {
     }
 
     private void calculateScoreStats() {
-        result.getDetails().setAvgScore(this.calculateAvgScore());
-        result.getDetails().setMinScore(this.calculateMinScore());
-        result.getDetails().setMaxScore(this.calculateMaxScore());
-    }
-
-    private int calculateAvgScore() {
-        double average = scores.stream()
-                .mapToInt(i -> i)
-                .average()
-                .orElse(0);
-        return (int) average;
-    }
-
-    private int calculateMinScore() {
-        double minScore = scores.stream()
-                .mapToInt(i -> i)
-                .min()
-                .orElse(0);
-        return (int) minScore;
-    }
-
-    private int calculateMaxScore() {
-        double maxScore = scores.stream()
-                .mapToInt(i -> i)
-                .max()
-                .orElse(0);
-        return (int) maxScore;
+        result.getDetails().setAvgScore(Calculator.calculateAvgScore(scores));
+        result.getDetails().setMinScore(Calculator.calculateMinScore(scores));
+        result.getDetails().setMaxScore(Calculator.calculateMaxScore(scores));
     }
 }
