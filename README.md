@@ -65,3 +65,15 @@ curl -i -X POST \
     }
 }
 ~~~~
+
+### SAX vs. StAX
+Both SAX and StAX are stream/event oriented XML parsers, but there is a subtle difference in how they work. SAX uses a "push" model, StAX uses a "pull" model.
+With a SAX push model you have not control over how and when the parser iterates over the file. Once you start the parser, it iterates all the way until the end, calling your handler for each and every XML event in the input XML document.
+The StAX pull model means that it is your "handler" class that calls the parser, not the other way around. Thus your handler class controls when the parser is to move on to the next event in the input. In other words, your handler "pulls" the XML events out of the parser. Additionally, you can stop the parsing at any point. 
+
+The ***StAX*** parser is available by default on: `http://localhost:8080/analyze`
+and on: `http://localhost:8080/analyze/StAX`
+
+The ***SAX*** parser is available on: `http://localhost:8080/analyze/SAX`
+
+This application lets you to compare both parsers in action. 
